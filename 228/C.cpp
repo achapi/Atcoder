@@ -1,5 +1,5 @@
 /**
-  date : 2021年11月27日00時17分26秒
+  date : 2021年11月27日00時27分39秒
   author : achapi
 */
 #include <bits/stdc++.h>
@@ -15,21 +15,24 @@ int main() {
   cin.tie(0);cout.tie(0);
   ios_base::sync_with_stdio(false);
   //code start
-  int n,x;cin>>n>>x;
-  vector<int> a(n);
+  int n,k;cin>>n>>k;
+  vector<int> p(n);
   rep(i, n){
-    cin>>a[i+1];
+      int a,b,c;
+      cin>>a>>b>>c;
+      p[i]=a+b+c;
   }
-  vector<int> b(n);
-  int ans = 0;
-  while(true){
-    ans++;
-    b[x]=1;
-    x=a[x];
-    if(b[x]==1){
-      co(ans);
-      return 0;
-    }
+  vector<int> p2(n);
+  copy(all(p),p2.begin());
+  sort(all(p));
+  reverse(all(p));
+  int border = p[k-1];
+  rep(i, n){
+      if(p2[i]+300>=border){
+        co("Yes");
+      }else{
+        co("No");
+      }
   }
   //code end
   return 0;

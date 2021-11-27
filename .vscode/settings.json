@@ -2,7 +2,8 @@
     "files.associations": {
         "iostream": "cpp",
         "bitset": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "random": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
