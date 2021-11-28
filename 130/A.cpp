@@ -15,7 +15,7 @@ int main() {
   cin.tie(0);cout.tie(0);
   ios_base::sync_with_stdio(false);
   //code start
-  int n,i,j;cin>>n;
+  int n,i;cin>>n;
   ll ans,a;
   ans=0;a=0;
   string s;cin>>s;
@@ -24,16 +24,13 @@ int main() {
       if(s[i] == s[i+1]){
           a++;
       }else{
-        j=0;
-        while(j<=a){
-          ans+=j;
-          j++;
-        }
+        co(a);
+        if(a!=0)ans+=(a+1)*a;
         a=0;
       }
       i++;
   }
-  co(ans);
+  co((ans/2));
   //code end
   return 0;
 }
