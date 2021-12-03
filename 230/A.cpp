@@ -1,5 +1,5 @@
 /**
-  date : 2021年11月28日21時03分24秒
+  date : 2021年12月03日21時02分31秒
   author : achapi
 */
 #include <bits/stdc++.h>
@@ -15,24 +15,18 @@ typedef long long ll;
 #define all(v) v.begin(), v.end()
 
 int main() {
-  ios::sync_with_stdio(false);
-  std::cin.tie(nullptr);
+  cin.tie(0);cout.tie(0);
+  ios_base::sync_with_stdio(false);
   //code start
-  int n,i;cin>>n;
-  ll ans,a;
-  ans=0;a=0;
-  string s;cin>>s;
-  i=0;
-  while(i<=n){
-      if(s[i] == s[i+1]){
-          a++;
-      }else{
-        ans+=(a+1)*a;
-        a=0;
-      }
-      i++;
+  int n;cin>>n;
+  if(n-10<0){
+    co(("AGC00" + to_string(n)));
+  }else if(n-100<=0 && n < 42){
+    co(("AGC0" + to_string(n)));
+  }else{
+      n+=1;
+    co(("AGC0" + to_string(n)));
   }
-  co((ans/2));
   //code end
   return 0;
 }
