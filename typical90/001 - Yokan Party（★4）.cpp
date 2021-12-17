@@ -1,9 +1,8 @@
 /**
-  date : 2021年12月11日02時32分44秒
+  date : 2021年12月11日02時33分12秒
   author : achapi
 */
 #include <bits/stdc++.h>
-#include <atocder/all>
 #pragma GCC target("avx2")
 #pragma GCC optimize("O3")
 #pragma GCC optimize("unroll-loops")
@@ -18,7 +17,14 @@ int main() {
     cin.tie(0);cout.tie(0);
     ios_base::sync_with_stdio(false);
     //code start
-    
+    int n,l,k,ans;cin>>n>>l>>k;
+    vector<int> a(n);
+    rep(i, n){
+        cin>>a[i];
+    }
+    rep(i, n+2){
+        
+    }
     //code end
     return 0;
 }
