@@ -18,9 +18,9 @@ int main() {
     ios_base::sync_with_stdio(false);
     //code start
     ll h,w;cin>>h>>w;
-    vector<vector<ll>>a (h, vector<ll>(w));
-    vector<ll> tate(w, 0);
-    vector<ll> yoko(h, 0);
+    vector<vector<ll>>a(h, vector<ll>(w));
+    vector<ll>tate(w, 0);
+    vector<ll>yoko(h, 0);
     rep(i, h){
         rep(j, w){
             cin>>a[i][j];

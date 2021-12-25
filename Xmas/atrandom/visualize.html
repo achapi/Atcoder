@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Visualizer for Xmas Contest 2021 A</title>
+    <style>
+      .col0 {
+        background-color: rgb(255, 255, 255);
+      }
+      .col1 {
+        background-color: rgb(159, 200, 242);
+      }
+      .col2 {
+        background-color: rgb(242, 229, 171);
+      }
+      .col3 {
+        background-color: rgb(242, 161, 239);
+      }
+      .col4 {
+        background-color: rgb(242, 242, 242);
+      }
+      .col5 {
+        background-color: rgb(5, 108, 242);
+        color: rgb(242, 242, 242);
+      }
+      .col6 {
+        background-color: rgb(242, 160, 7);
+        color: rgb(242, 242, 242);
+      }
+      .col7 {
+        background-color: rgb(242, 57, 178);
+        color: rgb(242, 242, 242);
+      }
+      #visualizer {
+        display: flex;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1>At Random</h1>
+    <form>
+      <div>
+        <input id="in-dump" type="file" accept=".dump" />
+        ローカル用テスターの出力した *.dump ファイルを選択する
+      </div>
+      <div>
+        <input type="checkbox" id="ignore_design" name="ignore_design" />
+        <label for="ignore_design">目標デザインを無視して描画する</label>
+      </div>
+      <div>
+        <button type="button" id="redraw">再描画</button>
+      </div>
+    </form>
+    <p>
+      <a id="download" href="#" download="atrandom.png">画像をダウンロード</a>
+    </p>
+    <div id="visualizer">
+      <div id="canvas_region">
+        <canvas id="vis" width="500px" height="500px"></canvas>
+      </div>
+      <div id="color_info">
+        <table>
+          <tr>
+            <td id="black_info">黒: 0 / 0 (0%)</td>
+          </tr>
+          <tr>
+            <td id="white_info">白: 0 / 0 (0%)</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <table rules="groups">
+      <colgroup span="1"></colgroup>
+      <colgroup span="4"></colgroup>
+      <tr>
+        <td>目標デザインが白</td>
+        <td class="col0">塗られていない</td>
+        <td class="col1">きつね 0 が塗った</td>
+        <td class="col2">きつね 1 が塗った</td>
+        <td class="col3">きつね 0, 1 が塗った</td>
+      </tr>
+      <tr>
+        <td>目標デザインが黒</td>
+        <td class="col4">塗られていない</td>
+        <td class="col5">きつね 0 が塗った</td>
+        <td class="col6">きつね 1 が塗った</td>
+        <td class="col7">きつね 0, 1 が塗った</td>
+      </tr>
+    </table>
+    <script>
+      const PALETTE = [
+        [255, 255, 255, 255],
+        [159, 200, 242, 255],
+        [242, 229, 171, 255],
+        [242, 161, 239, 255],
+        [242, 242, 242, 255],
+        [5, 108, 242, 255],
+        [242, 160, 7, 255],
+        [242, 57, 178, 255],
+      ];
+      $(function () {
+        $("#download").click(function () {
+          let canvas = $("#vis")[0];
+          this.href = canvas.toDataURL("image/png");
+        });
+        function draw() {
+          let fs = $("#in-dump")[0];
+          if (!fs.files.length) {
+            console.log("not selected");
+            return;
+          }
+          let file = fs.files[0];
+          let canvas = $("#vis")[0];
+          let ctx = canvas.getContext("2d");
+          let imageData = ctx.createImageData(canvas.width, canvas.height);
+          let data = imageData.data;
+          let image = new Image();
+          let fr = new FileReader();
+          let ignoreDesign = $("#ignore_design")[0].checked;
+          fr.onload = function (e) {
+            let lines = fr.result.split("\n");
+            const W = parseInt(lines[0].split(" ")[0]);
+            const H = parseInt(lines[0].split(" ")[1]);
+            let black_correct = 0,
+              black_all = 0;
+            let white_correct = 0,
+              white_all = 0;
+            for (let y = 0; y < H; ++y) {
+              for (let x = 0; x < W; ++x) {
+                const ci = parseInt(lines[1 + y][x]);
+                const bi = (y * W + x) * 4;
+                for (let p = 0; p < 4; ++p) {
+                  if (ignoreDesign) {
+                    const cci = ci % 4 == 0 ? 0 : ci | 4;
+                    data[bi + p] = PALETTE[cci][p];
+                  } else {
+                    data[bi + p] = PALETTE[ci][p];
+                  }
+                }
+                if (ci >= 4) {
+                  ++black_all;
+                  if (ci % 4 > 0) {
+                    ++black_correct;
+                  }
+                } else {
+                  ++white_all;
+                  if (ci % 4 == 0) {
+                    ++white_correct;
+                  }
+                }
+              }
+            }
+            ctx.putImageData(imageData, 0, 0);
+            let black_accuracy = (black_correct * 100) / black_all;
+            let white_accuracy = (white_correct * 100) / white_all;
+            let black_info = $("#black_info")[0];
+            let white_info = $("#white_info")[0];
+            black_info.innerText =
+              "黒: " +
+              black_correct +
+              " / " +
+              black_all +
+              " (" +
+              black_accuracy.toFixed(2) +
+              "%)";
+            white_info.innerText =
+              "白: " +
+              white_correct +
+              " / " +
+              white_all +
+              " (" +
+              white_accuracy.toFixed(2) +
+              "%)";
+            if (black_correct * 100 < 85 * black_all) {
+              black_info.style.backgroundColor = "lightpink";
+            } else {
+              black_info.style.backgroundColor = "palegreen";
+            }
+            if (white_correct * 100 < 70 * white_all) {
+              white_info.style.backgroundColor = "lightpink";
+            } else {
+              white_info.style.backgroundColor = "palegreen";
+            }
+          };
+          fr.readAsText(file);
+        }
+        $("#in-dump").change(function () {
+          draw();
+        });
+        $("#redraw").click(function () {
+          draw();
+        });
+        $("#ignore_design").change(function () {
+          draw();
+        });
+      });
+    </script>
+  </body>
+</html>
