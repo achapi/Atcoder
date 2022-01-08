@@ -1,5 +1,5 @@
 /**
-  date : 2021年12月25日21時52分40秒
+  date : 2021年12月26日20時57分41秒
   author : achapi
 */
 #include <bits/stdc++.h>
@@ -17,15 +17,16 @@ int main() {
     cin.tie(0);cout.tie(0);
     ios_base::sync_with_stdio(false);
     //code start
-    ll n,k,x,ans=0,s=0;cin>>n>>k;
-    map<ll,ll> c;
-    c[0]=1;
-    while(n--){
-      cin>>x;s+=x;
-      ans+=c[s-k];
-      c[s]++;
+    int n;cin>>n;
+    vector<int> r(n);rep(i, n)cin>>r[i];
+    vector<int> c(n);rep(i, n)cin>>c[i];
+    int q;cin>>q;
+    int a,b;
+    rep(i, q){
+        cin>>a>>b;
+        if(r[a-1]+c[b-1] > n)cout<<'#';
+        else cout<<'.';
     }
-    cout<<ans;
     //code end
     return 0;
 }
