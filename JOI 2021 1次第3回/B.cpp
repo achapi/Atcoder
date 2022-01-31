@@ -1,5 +1,5 @@
 /**
-  date : 2021年12月11日02時32分44秒
+  date : 2022年01月10日19時22分59秒
   author : achapi
 */
 #include <bits/stdc++.h>
@@ -17,7 +17,9 @@ int main() {
     cin.tie(0);cout.tie(0);
     ios_base::sync_with_stdio(false);
     //code start
-    
+    int a,b,c;cin>>a>>b>>c;
+    if(a<=b)cout<<250;
+    else cout<<250+(a-b+(c-1))/c*100;
     //code end
     return 0;
 }

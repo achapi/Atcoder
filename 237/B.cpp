@@ -1,5 +1,5 @@
 /**
-  date : 2021年12月11日02時32分44秒
+  date : 2022年01月30日21時09分05秒
   author : achapi
 */
 #include <bits/stdc++.h>
@@ -17,7 +17,19 @@ int main() {
     cin.tie(0);cout.tie(0);
     ios_base::sync_with_stdio(false);
     //code start
-    
+    int h,w;cin>>h>>w;
+    vector<vector<int>> a(h,vector<int>(w));
+    rep(i, h){
+        rep(j, w){
+            cin>>a[i][j];
+        }
+    }
+    rep(i, w){
+        rep(j, h){
+            cout<<a[j][i]<<" ";
+        }
+        cout<<endl;
+    }
     //code end
     return 0;
 }

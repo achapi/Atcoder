@@ -1,5 +1,5 @@
 /**
-  date : 2021年12月11日02時32分44秒
+  date : 2022年01月21日18時13分03秒
   author : achapi
 */
 #include <bits/stdc++.h>
@@ -17,7 +17,20 @@ int main() {
     cin.tie(0);cout.tie(0);
     ios_base::sync_with_stdio(false);
     //code start
-    
+    int n,m;cin>>n>>m;
+    ll ans=0;
+    vector<vector<int>> s(n,vector<int>(m));
+    rep(i,n)rep(j,m)cin>>s[i][j];
+    rep(i,m){
+        rep(j,m-1){
+            ll a=0;
+            rep(k, n){
+                a+=max(s[k][i],s[k][j+1]);
+            }
+            ans=max(ans,a);
+        }
+    }
+    cout<<ans;
     //code end
     return 0;
 }

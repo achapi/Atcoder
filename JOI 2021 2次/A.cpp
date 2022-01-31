@@ -1,5 +1,5 @@
 /**
-  date : 2021年12月11日02時32分44秒
+  date : 2022年01月11日02時08分17秒
   author : achapi
 */
 #include <bits/stdc++.h>
@@ -17,7 +17,16 @@ int main() {
     cin.tie(0);cout.tie(0);
     ios_base::sync_with_stdio(false);
     //code start
-    
+    int q;string s;cin>>q;
+    stack<string> book;
+    rep(i, q){
+        cin>>s;
+        if(s=="READ"){
+            cout<<book.top()<<endl;
+            book.pop();
+        }
+        else book.push(s);
+    }
     //code end
     return 0;
 }
